@@ -58,6 +58,9 @@ function multiplication(uint256 firstNumber_, uint256 secondNumber_) external re
 
 //4. Division
 function division(uint256 firstNumber_, uint256 secondNumber_) external returns(uint256 resultado_){
+	if(secondNumber_ == 0){
+		revert("You can not divide by zero");
+	}
 	resultado_ = firstNumber_ / secondNumber_;
 	resultado = resultado_;
 

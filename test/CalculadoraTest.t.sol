@@ -115,7 +115,18 @@ contract CalculadoraTest is Test {
 		vm.stopPrank();
 	}
 
+	//Unit Testing = given inputs, check outputs
+
 	//Fuzzing testing 
+
+	//Fuzzing test 
+	function testFuzzingDivision(uint256 firstNumber_, uint256 secondNumber_) public {
+		vm.startPrank(admin);
+		// vm.expectRevert();
+		calculadora.division(firstNumber_, secondNumber_);
+		
+		vm.stopPrank();
+	}
 
 
 	
