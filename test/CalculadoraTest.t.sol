@@ -10,6 +10,7 @@ contract CalculadoraTest is Test {
 	Calculadora calculadora;
 	uint256 public firstResultado = 100;
 	address public admin = vm.addr(1);
+	address public randomUser = vm.addr(2);
 
 	function setUp() public {
 		calculadora = new Calculadora(firstResultado, admin);
@@ -60,6 +61,58 @@ contract CalculadoraTest is Test {
 
 		calculadora.multiplication(firstNumber_, secondNumber_);
 
+	}
+
+	function testIfNotAdminCallsDivisionReverts() public {
+		vm.startPrank(randomUser);
+
+		uint256 firstNumber_ = 5;
+		uint256 secondNumber_ = 2;
+		vm.expectRevert();
+
+		calculadora.division(firstNumber_, secondNumber_);
+		
+		vm.stopPrank();
+	}
+
+	function testAdminCanCallDivisionCorrectly() public {
+		vm.startPrank(admin);
+
+		uint256 firstNumber_ = 5;
+		uint256 secondNumber_ = 2;
+
+		calculadora.division(firstNumber_, secondNumber_);
+		
+		vm.stopPrank();
+	}
+
+	function testDefaultUserCanCallDivisionCorrectly() public {
+		uint256 firstNumber_ = 5;
+		uint256 secondNumber_ = 2;
+		console.log("Msg.sender", msg.sender);
+		vm.expectRevert();
+		calculadora.division(firstNumber_, secondNumber_);
+		
+	}
+
+	function testDefaultExecutesCorrectly() public {
+		vm.startPrank(admin);
+		uint256 firstNumber_ = 5;
+		uint256 secondNumber_ = 2;
+		console.log("Msg.sender", msg.sender);
+		uint256 result_ = calculadora.division(firstNumber_, secondNumber_);
+		assert(result_ == firstNumber_ / secondNumber_);
+		vm.stopPrank();
+	}
+
+	function testCanNotDivideByZero() public {
+		vm.startPrank(admin);
+		uint256 firstNumber_ = 5;
+		uint256 secondNumber_ = 0;
+		vm.expectRevert();
+		calculadora.division(firstNumber_, secondNumber_);
+
+		vm.stopPrank();
 	}
 
 	//Fuzzing testing 

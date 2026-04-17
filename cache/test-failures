@@ -1,1 +1,1 @@
-testCanNotMultiply2LargeNumbers
+testCanNotMultiply2LargeNumbers|testDefaultUserCanCallDivisionCorrectly|testIfNotAdminCallsDivisionReverts|testSubstraction
